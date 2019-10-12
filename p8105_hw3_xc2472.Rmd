@@ -9,5 +9,31 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(p8105.datasets)
 ```
+
+
+# Problem 1
+
+```{r}
+data("instacart")
+
+instacart %>% 
+  group_by(aisle) %>% 
+  summarize(items = n()) %>% 
+  arrange(desc(items))
+```
+
+```{r}
+instacart %>% 
+  group_by(aisle) %>% 
+  summarize(items = n()) %>% 
+  filter(items > 10000) %>% 
+  ggplot(aes(x = items, y = aisle)) + 
+  geom_point()
+```
+
+
+
+
 
