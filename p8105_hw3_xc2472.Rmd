@@ -90,6 +90,23 @@ brfss_data =
 ```
 
 
+## states were observed at 7 or more locations in 2002 and 2010
+
+```{r}
+brfss_data %>% 
+  filter(
+    year %in% c(2002, 2010)
+  ) %>% 
+  group_by(year, locationabbr) %>% 
+  summarize(
+    unique_location = n_distinct(locationdesc)
+  ) %>% 
+  filter(unique_location > 6) %>% 
+knitr::kable()
+```
+
+
+
 
 
 
