@@ -50,6 +50,27 @@ instacart %>%
 ```
 
 
+## a table showing the mean hour
+
+```{r}
+instacart %>% 
+  group_by(product_name, order_dow) %>% 
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
+  summarize(
+    mean_order_time = mean(order_hour_of_day, na.rm = TRUE)
+  ) %>% 
+  pivot_wider(
+    names_from = order_dow,
+    values_from = mean_order_time
+  ) %>% 
+  knitr::kable()
+```
+
+
+
+
+
+
 
 
 
