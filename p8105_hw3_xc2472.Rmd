@@ -7,7 +7,6 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 library(tidyverse)
 library(p8105.datasets)
 library(httr)
@@ -21,7 +20,6 @@ library(jsonlite)
 ## 
 ```{r}
 data("instacart")
-
 instacart %>% 
   group_by(aisle) %>% 
   summarize(items = n()) %>% 
@@ -85,7 +83,8 @@ brfss_data =
     response %in% c("Poor", "Fair", "Good", "Very good", "Excellent")
   ) %>% 
   mutate(
-    response = factor(response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent"))
+    response = factor(response),
+    response = fct_relevel(response, "Poor", "Fair", "Good", "Very good", "Excellent")
   )
 ```
 
@@ -106,11 +105,24 @@ knitr::kable()
 ```
 
 
+## create a new dataset and make a "spaghetti" plot
 
+```{r}
+brfss_excellent = 
+  brfss_data %>% 
+  filter(response == "Excellent") %>% 
+  group_by(locationabbr, year) %>% 
+  mutate(
+    data_value_average = mean(data_value, na.rm = TRUE)) %>% 
+  select(year, locationabbr, data_value_average) %>% 
+  distinct()
 
-
-
-
-
-
+brfss_excellent %>% 
+  ggplot(aes(x = year, y = data_value_average, color = locationabbr)) +
+  geom_line() +
+  viridis::scale_color_viridis(
+    name = "State", 
+    discrete = TRUE
+  )
+```
 
