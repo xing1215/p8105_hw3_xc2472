@@ -126,3 +126,15 @@ brfss_excellent %>%
   )
 ```
 
+
+## Make a two panel plot
+
+```{r}
+brfss_data %>% 
+  filter(year %in% c(2006, 2010), locationabbr == "NY") %>% 
+  ggplot(aes(x = response, y = data_value)) +
+  geom_violin() +
+  facet_grid(~year)
+```
+
+
