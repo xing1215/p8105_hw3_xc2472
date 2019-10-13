@@ -154,4 +154,39 @@ accel_data
 ```
 
 
+## 
+
+```{r}
+accel_tidy_data = 
+  accel_data %>% 
+  pivot_longer(
+    activity_1:activity_1440,
+    names_to = "activity",
+    values_to = "score") %>% 
+  group_by(day_id) %>% 
+  mutate(
+    total_activity = sum(score))
+
+accel_tidy_data %>% 
+  pivot_wider(
+    names_from = "activity",
+    values_from = "score"
+  ) %>% 
+  select(day_id, day, total_activity) %>% 
+  knitr::kable()
+```
+
+
+## 
+
+```{r}
+accel_tidy_data %>% 
+  group_by(week) %>% 
+  ggplot(aes(x = day, y = total_activity, color = week)) +
+  geom_line()
+```
+
+
+
+
 
