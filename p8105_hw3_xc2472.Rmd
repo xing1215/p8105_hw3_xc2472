@@ -138,3 +138,20 @@ brfss_data %>%
 ```
 
 
+# Problem 3
+
+## load and clean the data
+
+```{r}
+accel_data = 
+  read_csv(file = "./data/accel_data.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    day_type = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday")
+  ) %>% 
+  select(week, day_id, day, day_type, everything())
+accel_data
+```
+
+
+
