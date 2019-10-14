@@ -9,17 +9,27 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(p8105.datasets)
-library(httr)
-library(jsonlite)
 ```
 
 
 # Problem 1
 
+## import the dataset instacart
+
+```{r}
+data("instacart")
+force(instacart)
+```
+
+There are `r nrow(instacart)` observations in the instacart dataset. Each row represents a
+product from an order. The `aisle` variable represents the type of the goods that are 
+ordered, the `reordered` variable represents if this product has been ordered by this user
+in the past, and `order_day shows` the day of the week on which the order is placed. For 
+example, the first row in the dataset tells us yogurt was ordered on Thursday and this
+product has been ordered by this person in the past. 
 
 ## 
 ```{r}
-data("instacart")
 instacart %>% 
   group_by(aisle) %>% 
   summarize(items = n()) %>% 
@@ -182,8 +192,8 @@ accel_tidy_data %>%
 ```{r}
 accel_tidy_data %>% 
   group_by(week) %>% 
-  ggplot(aes(x = day, y = total_activity, color = week)) +
-  geom_line()
+  ggplot(aes(x = day_id, y = score, color = week)) +
+  geom_point()
 ```
 
 
