@@ -14,7 +14,7 @@ library(p8105.datasets)
 
 # Problem 1
 
-## import the dataset instacart
+**import the dataset instacart**
 
 ```{r}
 data("instacart")
@@ -30,6 +30,8 @@ instacart %>%
   )
 ```
 
+**Description**
+
 There are `r nrow(instacart)` observations in the instacart dataset. Each row represents a
 product from an order. There are 21 types of department in this dataset and the mean order
 hour of the day is for each department is around 13. The `aisle` variable represents the 
@@ -37,7 +39,7 @@ type of the goods that are ordered and `order_day shows` the day of the week on 
 order is placed. For example, the first row in the dataset tells us yogurt was ordered on 
 Thursday and this product has been ordered by this person in the past. 
 
-## 
+
 ```{r}
 instacart %>% 
   group_by(aisle) %>% 
@@ -45,9 +47,9 @@ instacart %>%
   arrange(desc(items))
 ```
 
-There are `r nrow(instacart %>% group_by(aisle) %>% summarize(items = n()))` aisles
+There are `r nrow(instacart %>% group_by(aisle) %>% summarize(items = n()))` aisles exist and the most ordered item is fresh vegetables. 
 
-## 
+**Create a plot**
 
 ```{r}
 instacart %>% 
@@ -55,22 +57,42 @@ instacart %>%
   summarize(items = n()) %>% 
   filter(items > 10000) %>% 
   ggplot(aes(x = items, y = aisle)) + 
-  geom_point()
+  geom_point() +
+  labs(
+    title = "number of items ordered in each aisle",
+    x = "the number of items",
+    y = "type of aisles",
+    caption = "number of aisles larger than 10000 "
+  )
 ```
-(how to make the plot readable?)
 
-## create a table showing the three most popular items
+From the graph, fresh vegetables and fresh fruits are ordered much more than other items. 
+The ordered numbers of packaged vegetables fruits and yogurt also stand out. 
+
+**Create a table**
 
 ```{r}
 instacart %>% 
-  group_by(aisle) %>% 
-  summarize(items = n()) %>% 
-  filter(min_rank(desc(items)) < 4) %>% 
+  filter(
+    aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")
+  ) %>% 
+  group_by(aisle, product_name) %>% 
+  summarize(order_number = n()) %>% 
+  arrange(desc(order_number)) %>% 
+  filter(min_rank(desc(order_number)) < 4) %>% 
   knitr::kable()
 ```
 
+In packaged vegetables fruits aisle, organic baby spinach, organic raspberries, and 
+organic blueberries are the 3 most ordered items with order number 9784, 5546, and 4966 
+respectively. 
+In baking ingredients aisle, light brown sugar, pure baking soda, and cane sugar are the 3
+most ordered items with order number 499, 387, and 336 respectively. 
+In dog food care aisle, snack sticks chicken & rice recipe dog treats, organix chicken & 
+brown rice recipe, and small dog biscuits are the 3 most ordered items, with order number 
+30, 28, 26 respectively. 
 
-## a table showing the mean hour
+**Create a table**
 
 ```{r}
 instacart %>% 
@@ -83,12 +105,15 @@ instacart %>%
     names_from = order_dow,
     values_from = mean_order_time
   ) %>% 
-  knitr::kable()
+  knitr::kable(digits = 2)
 ```
 
+For coffee ice cream, the mean order hour of a day for each day of the week is 13.77, 
+14.32, 15.38, 15.32, 15.22, 12.26, 13.83. 
+For pink lady apples, the mean order hour of a day for each day of the week is 13.44, 
+11.36, 11.70, 14.25, 11.55, 12.78, 11.94.
 
 # problem 2
-
 
 ## Data import and data cleaning
 
