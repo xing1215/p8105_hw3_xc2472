@@ -113,6 +113,7 @@ For coffee ice cream, the mean order hour of a day for each day of the week is 1
 For pink lady apples, the mean order hour of a day for each day of the week is 13.44, 
 11.36, 11.70, 14.25, 11.55, 12.78, 11.94.
 
+
 # problem 2
 
 ## Data import and data cleaning
@@ -133,8 +134,7 @@ brfss_data =
   )
 ```
 
-
-## states were observed at 7 or more locations in 2002 and 2010
+**Q1**
 
 ```{r}
 brfss_data %>% 
@@ -149,8 +149,10 @@ brfss_data %>%
 knitr::kable()
 ```
 
+In 2002, there are 6 states were observed at 7 or more places. 
+In 2010, there are 14 states were observed at 7 or more places. 
 
-## create a new dataset and make a "spaghetti" plot
+**Q2**
 
 ```{r}
 brfss_excellent = 
@@ -168,11 +170,17 @@ brfss_excellent %>%
   viridis::scale_color_viridis(
     name = "State", 
     discrete = TRUE
+  ) +
+  labs(
+    title = "Spaghetti plot",
+    y = "the average data value"
   )
 ```
 
+The spaghetti plot is hard to read but a general decreasing trend can be found when the 
+year goes up. 
 
-## Make a two panel plot
+**Q3**
 
 ```{r}
 brfss_data %>% 
@@ -181,6 +189,10 @@ brfss_data %>%
   geom_violin() +
   facet_grid(~year)
 ```
+
+The data values for "good" and "very good" responses are higher than "excellent" responses
+in 2006. The data values for "good" responses are generally higher than other responses in
+2010. 
 
 
 # Problem 3
@@ -192,10 +204,10 @@ accel_data =
   read_csv(file = "./data/accel_data.csv") %>% 
   janitor::clean_names() %>% 
   mutate(
-    day_type = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday")
+    day_type = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday"),
+    day = forcats::fct_relevel(day, c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
   ) %>% 
   select(week, day_id, day, day_type, everything())
-accel_data
 ```
 
 
