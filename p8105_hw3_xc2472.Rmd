@@ -18,15 +18,24 @@ library(p8105.datasets)
 
 ```{r}
 data("instacart")
-force(instacart)
+
+instacart %>% 
+  group_by(department) %>% 
+  summarize(n = n())
+
+instacart %>% 
+  group_by(department) %>% 
+  summarize(
+    mean_order_hour = mean(order_hour_of_day, na.rm = TRUE)
+  )
 ```
 
 There are `r nrow(instacart)` observations in the instacart dataset. Each row represents a
-product from an order. The `aisle` variable represents the type of the goods that are 
-ordered, the `reordered` variable represents if this product has been ordered by this user
-in the past, and `order_day shows` the day of the week on which the order is placed. For 
-example, the first row in the dataset tells us yogurt was ordered on Thursday and this
-product has been ordered by this person in the past. 
+product from an order. There are 21 types of department in this dataset and the mean order
+hour of the day is for each department is around 13. The `aisle` variable represents the 
+type of the goods that are ordered and `order_day shows` the day of the week on which the 
+order is placed. For example, the first row in the dataset tells us yogurt was ordered on 
+Thursday and this product has been ordered by this person in the past. 
 
 ## 
 ```{r}
@@ -36,6 +45,7 @@ instacart %>%
   arrange(desc(items))
 ```
 
+There are `r nrow(instacart %>% group_by(aisle) %>% summarize(items = n()))` aisles
 
 ## 
 
