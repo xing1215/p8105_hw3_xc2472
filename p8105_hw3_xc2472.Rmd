@@ -272,7 +272,11 @@ days. As a whole, there is no particular trend can be found.
 ```{r}
 accel_tidy_data %>% 
   ggplot(aes(x = activity, y = count_minutes, group = day_id, color = day)) +
-  geom_line() 
+  geom_line() +
+  labs(
+    title = "Spaghetti plot",
+    x = "minutes"
+  )
 ```
 
 Across the 35 days observation, the count_minutes fluctuate in a big range and it is hard 
