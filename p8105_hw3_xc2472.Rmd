@@ -280,3 +280,4 @@ to see some detailed trends. But in overall, the Wednesday's count_minute is low
 other days in a week in general and Wednesday is also generally more stable than other 
 days. 
 
+
